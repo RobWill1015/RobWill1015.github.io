@@ -80,3 +80,4 @@ var petName = 'Indie';
  */
 
 console.log(petName); // prints 'Indie'
+
