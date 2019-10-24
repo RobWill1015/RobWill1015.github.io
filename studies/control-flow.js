@@ -11,6 +11,7 @@
 var myAge = 37;
 var fianceAge = 42;
 
+
 /*
  * The if statement us used to specify whether a condition is true
  * You can only use 1 if statement, because it is only checking one condition to be true or false
@@ -19,7 +20,7 @@ var fianceAge = 42;
 
 if (myAge < fianceAge) {
     console.log("She's wiser!");
-}                               // prints 'She's old!'
+}                               // prints 'She's wiser!'
 
 
 // 2. Else statement
@@ -43,12 +44,14 @@ if (age > 18) {                     // this is false so it will execute the else
 // 3. Else-If Statement
 var time = 21;
 
+
 /*
  * Sometimes you might have multiple conditions and outputs and need more than 2 options. 
  * The if else if statement can evluate more than 2 possible outcomes.
  * You would end with an else statement in case all of the conditions evaluate to false
  * You can have as many if else if as you want but if you have a lot, a switch statement might be eaiser to read
  */
+
 if (time < 11) {                        // false
     console.log("Good Morning!");
 } else if (time < 16) {                 // false
