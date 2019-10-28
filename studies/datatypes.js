@@ -192,3 +192,9 @@ var b = y;  // value being copied returns b = 'abc'
  * the address of that value is what's actually copied over.
  * Objects are copied by reference instead of by value.
  */
+ 
+ var shoes = ['adidas', 'nike'];
+ var kicks = shoes;         // the location in memory, being referenced, is what is copied over
+ shoes.push('converse');    // referencing the same location in memory. 
+ console.log(shoes);    // prints ['adidas', 'nike', 'converse']
+ console.log(kicks);    // prints ['adidas', 'nike', 'converse']

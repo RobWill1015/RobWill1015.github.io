@@ -2,7 +2,7 @@
  * String Manipulation
  * 
  * 0. There are built in methods that are very useful to manipulating strings 
- * such as finding the length or a string, joining and splitting strings, substituting
+ * such as finding the length or a string, joining and splitting strings,    substituting
  * one character in a string for another.
  * 
  */

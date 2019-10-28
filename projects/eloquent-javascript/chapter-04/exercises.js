@@ -2,56 +2,114 @@
 // range ///////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-function range() {
-
+function range(num1, num2, step) {
+  //takes two numbers and returns an array of all number between two input numbers
+  //create range array
+  var array = [];
+  if(step === undefined) {
+    step = 1;
+  }
+  if(num1 === num2) {
+    return [];
+  }
+  //if numbers are negative
+  if(step > 0) {
+    if(num1 < 0 || num2 < 0) {
+      return [];
+    } else
+    //if first number is larger than second number
+    if(num1 > num2) {
+      //loop backwards
+      for(var i = num1; i >= num2; i+= step) {
+        // push numbers into array
+        array.push(i);
+      }
+    } else {
+      //loop forward
+      for(var i = num1; i <= num2; i+=step) {
+        //push numbers into array
+        array.push(i);
+      }
+    }
+  }
+  //return array
+  return array;
 }
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // sum /////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-function sum() {
-
+function sum(array) {
+  //takes a range of numbers and adds them. returns sum
+  //create sum
+  var sum  = 0;
+  //only add if there are elements in array
+  if(array.length > 0) {
+    //loop array
+    for(let i = 0; i < array.length; i++) {
+      //reassign sum to add each number
+      sum += array[i];
+    }
+  }
+  return sum;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // reverseArray ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-function reverseArray() {
-
+function reverseArray(array) {
+    let output = [];
+        for(let i = array.length -1; i >= 0; i--) {
+            output.push(array[i]);
+        }
+        return output;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // reverseArrayInPlace /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-function reverseArrayInPlace() {
-
+function reverseArrayInPlace(array) {
+    for(let i = 0; i < Math.floor(array.length / 2); i++) {
+        let old = array[i];
+        array[i] = array[array.length -1 -i];
+        array[array.length -1 -i] = old;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // arrayToList /////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-function arrayToList() {
-
+function arrayToList(array) {
+    let list = null;
+    for (let i = array.length - 1; i >= 0; i--) {
+        list = {value: array[i], rest: list};
+    }
+    return list;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // listToArray /////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-function listToArray() {
-
+function listToArray(list) {
+    let array = [];
+    for(let node = list; node; node = node.rest) {
+        array.push(node.value);
+    }
+    return array;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // prepend /////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-function prepend() {
-
+function prepend(value, list) {
+    return {value, rest: list};
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -59,29 +117,44 @@ function prepend() {
 ////////////////////////////////////////////////////////////////////////////////
 
 function nth(list, num) {
-if(list.value === undefined) {
-    console.log('returning undefined because value is undefined');
-    return undefined;
+    if(!list) return undefined;
+    else if(num == 0) return list.value;
+    else return nth(list.rest, num - 1);
 }
-    console.log(`${list.value} is current value. checking ${num} more layers.`);
-    if(list.rest !== null) {
-        console.log('starting another nth');
-        nth(list.rest, num -1);
-    } else if (num === 0) {
-        console.log(`going to print the value ${list.value} now!`)
-        return list.value;
-    }
-}
-console.log(nth(arrayToList([1, 2, 3]), 2));
-
 ////////////////////////////////////////////////////////////////////////////////
 // deepEqual ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-function deepEqual() {
+function deepEqual(val1, val2) {
+  //make array of keys
+  // //nested for loops
+  // var result = true;
+  if(val1 === val2) {
+    return true;
+  } 
+  //if both values are object literals
+  if(typeof val1 === 'object' && typeof val2 === 'object' && val1 !== null && val2 !== null) {
+    //loop through single object
+    for (var prop in val1) {
+      //if second object has matching properties with first object
+      if (val2.hasOwnProperty(prop)) {  
+        //recursive call: if values in object do not match
+        if (!deepEqual(val1[prop], val2[prop])) {
+          //false
+          return false;
+        }
+      } else {
+        //false when not all properties match
+        return false;
+      }
+    }
+    //true for empty objects
+    return true;
+  }
+  //false if no values match
+  return false;
 
 }
-
 ////////////////////////////////////////////////////////////////////////////////
 // DON'T REMOVE THIS CODE //////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

@@ -164,28 +164,28 @@ if(object.hasOwnProperty('friends')) {
 //////////////////////////////////////////////////////////////////////
 // nonFriends() : Should take a name and a list of people, and return a list of all the names that <name> is not friends with 
 function nonFriends(name, array) {
-var nameList = [];
+    var nameList = [];
     var result = [];
     var current = null;
-    for(var i=0; i<array.length; i++){
-        if(name === array[i].name){
-            current = array[i];
-        }else{
-            nameList.push(array[i].name);
+        for(var i=0; i<array.length; i++){
+            if(name === array[i].name){
+                current = array[i];
+            }else{
+                nameList.push(array[i].name);
+            }
         }
-    }
 
-    if(current === null){
-        return nameList;
-    }
+            if(current === null){
+                return nameList;
+            }
 
-    for(var i=0; i<nameList.length; i++){
-        if(current.friends.indexOf(nameList[i]) == -1){
-            result.push(nameList[i]);
+        for(var i=0; i<nameList.length; i++){
+            if(current.friends.indexOf(nameList[i]) == -1){
+                result.push(nameList[i]);
+            }
         }
-    }
 
-    return result;
+                return result;
 
 }
     
@@ -196,25 +196,38 @@ var nameList = [];
 //////////////////////////////////////////////////////////////////////
 // Function 14 - Update Object ///////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
+// updateObject() : Should take an object, a key and a value. Should update the property <key> on <object> with new <value>. 
+// If <key> does not exist on <object> create it.
 
 function updateObject(object, key, value) {
-
+    object[key] = value;
+    return object;
 }
 
 //////////////////////////////////////////////////////////////////////
 // Function 15 - Remove Properties ///////////////////////////////////
 //////////////////////////////////////////////////////////////////////
+// removeProperties() : Should take an object and an array of strings. Should remove any properties on <object> that are listed in <array> 
 
-function removeProperties(object, array) {
-
+function removeProperties(obj, array) {
+   if (array.length > 0) {
+        for (var x in obj) {
+            for (var y = 0; y < array.length; y++) {
+                if (array[y] === x || array[y] == obj[x]) delete obj[x]
+            }
+        }
+    }
+    return obj;
 }
-
 //////////////////////////////////////////////////////////////////////
 // Function 16 - Dedup ///////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
+// dedup() : Should take an array and return an array with all the duplicates removed (2, 0, 2)
 
 function dedup(array) {
-
+const uniques = new Set(array);
+const backToArray = [...uniques];
+return backToArray;
 }
 
 //////////////////////////////////////////////////////////////////////
