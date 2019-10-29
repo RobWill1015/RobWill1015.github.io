@@ -121,39 +121,51 @@ function nth(list, num) {
     else if(num == 0) return list.value;
     else return nth(list.rest, num - 1);
 }
+/*
+function nth(list, index){
+  for(let i = list; i; i = i.rest) {
+    if(index === 0){
+      return i.value;
+    }
+    index--;
+  }
+}
+
+
+
+
+*/
 ////////////////////////////////////////////////////////////////////////////////
 // deepEqual ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-function deepEqual(val1, val2) {
-  //make array of keys
-  // //nested for loops
-  // var result = true;
-  if(val1 === val2) {
+function deepEqual(a, b) {
+  if (a === b) {
+    // items are identical
     return true;
-  } 
-  //if both values are object literals
-  if(typeof val1 === 'object' && typeof val2 === 'object' && val1 !== null && val2 !== null) {
-    //loop through single object
-    for (var prop in val1) {
-      //if second object has matching properties with first object
-      if (val2.hasOwnProperty(prop)) {  
-        //recursive call: if values in object do not match
-        if (!deepEqual(val1[prop], val2[prop])) {
-          //false
+  } else if (typeof a === 'object' && a !== null && typeof b === 'object' && b !== null) {
+  	// items are objects - do a deep property value compare
+    // join keys from both objects together in one array
+    let keys = Object.keys(a).concat(Object.keys(b));
+    // filter out duplicate keys
+    keys = keys.filter(
+      function (value, index, self) { 
+        return self.indexOf(value) === index;
+	  }
+    );
+    for (p of keys) {
+      if (typeof a[p] === 'object' && typeof b[p] === 'object') {
+        if (deepEqual(a[p], b[p]) === false) {
           return false;
         }
-      } else {
-        //false when not all properties match
+      } else if (a[p] !== b[p]) {
         return false;
       }
     }
-    //true for empty objects
     return true;
+  } else {
+   return false; 
   }
-  //false if no values match
-  return false;
-
 }
 ////////////////////////////////////////////////////////////////////////////////
 // DON'T REMOVE THIS CODE //////////////////////////////////////////////////////

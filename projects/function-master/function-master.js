@@ -103,12 +103,7 @@ let endMessage;
 //////////////////////////////////////////////////////////////////////
 // maybeNoises() : Should take an object, if this object has a noises array return them as a string separated by a space, 
 // if there are no noises return 'there are no noises' (3, 0, 3)
-/*function maybeNoises(object) {
-    for(var key in object)
-        if(Array.isArray(object[key])) {
-            return object[key].join(" ") 
-   } else (Array.isArray(object[key]) === undefined) {
-       return 'you fucked up';*/
+
       
 function maybeNoises(object) {
     let errorMess = 'there are no noises';
@@ -174,24 +169,18 @@ function nonFriends(name, array) {
                 nameList.push(array[i].name);
             }
         }
-
             if(current === null){
                 return nameList;
             }
-
         for(var i=0; i<nameList.length; i++){
             if(current.friends.indexOf(nameList[i]) == -1){
                 result.push(nameList[i]);
             }
         }
-
                 return result;
-
 }
     
  
-
-
 
 //////////////////////////////////////////////////////////////////////
 // Function 14 - Update Object ///////////////////////////////////////
