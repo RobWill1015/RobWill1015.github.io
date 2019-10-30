@@ -2,7 +2,7 @@
  * String Manipulation
  * 
  * 0. There are built in methods that are very useful to manipulating strings 
- * such as finding the length or a string, joining and splitting strings,    substituting
+ * such as finding a string, joining and splitting strings,    substituting
  * one character in a string for another.
  * 
  */
@@ -23,14 +23,8 @@ var text4 = text1.concat(' ', text2);
 
 console.log(text4);     // prints 'Operation Spark'
 
-// 3. length property
-text3.length;
 
-// using the length property, we can return the number of characters in a string.
-
-console.log(text3.length);  // prints 15
-
-// 4. Converting to Upper or Lower Case
+// 3. Converting to Upper or Lower Case
 var greeting = 'hello, how are you doing?';
 var response = "I AM GREAT!";
 
@@ -39,7 +33,7 @@ var response = "I AM GREAT!";
 console.log(greeting.toUpperCase());    // prints 'HELLO, HOW ARE YOU DOING?'
 console.log(response.toLowerCase());    // prints 'i am great!'
 
-// 5. Splitting Strings method
+// 4. Splitting Strings method
 var titanicJack = 'King of the World';
 
 /*
@@ -75,7 +69,7 @@ console.log(titanicJack.split(''));
             'd' ]
  */
 
-// 6. Find and Replace string values
+// 5. Find and Replace string values
 var pulpFiction = 'That is one tasty burger';
 
 /*
@@ -87,7 +81,7 @@ var pulpFiction = 'That is one tasty burger';
 var pulpFictionNew = pulpFiction.replace('burger', 'nugget');
 console.log(pulpFictionNew);   // prints 'That is one tasty nugget'
 
-// 7. Accessing charascters in a string
+// 6. Accessing charascters in a string
 var dailyQuestion = 'Whats for dinner?';
 
 /*

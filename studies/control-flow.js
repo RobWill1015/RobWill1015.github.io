@@ -13,8 +13,9 @@ var fianceAge = 42;
 
 
 /*
- * The if statement us used to specify whether a condition is true
- * You can only use 1 if statement, because it is only checking one condition to be true or false
+ * The if statement is used to specify whether a condition is true
+ * If you want to check if multiple conditions are true, you can use nested if statements. Use 
+ * multiple if statements if both if statments could be true at the same time. 
  * The code will run if true and be ingnored if false
  */
 
@@ -32,6 +33,9 @@ var age = 15;
  * In this example, the expression is evaluated and if it results to true, the given 
  * statement in the 'if' block is executed. If the expression is false, the given
  * statement in the 'else' block is executed.
+ * The else part of the if else statement follows the same rules as the if part. If you want to 
+ * execute multiple statements for the else condition, enclose the code in curly brackets. If you 
+ * only need to execute a single statement for the else condition, you do not need to use curly brackets.
  */
 
 if (age > 18) {                     // this is false so it will execute the else statement

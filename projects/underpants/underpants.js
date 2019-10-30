@@ -20,8 +20,8 @@ var _ = {};
 *   _.identity(5) === 5
 *   _.identity({a: "b"}) === {a: "b"}
 */
-_.identity = function (value){
-    return value;
+_.identity = function (anyValue){
+    return anyValue;
 }
 
 /** _.typeOf
@@ -83,13 +83,22 @@ _.typeOf = function (value){
 *   _.first(["a", "b", "c"], 2) -> ["a", "b"]
 */
 _.first = function(array, number) {
-    //test if an array, if not, return []
-    // if n is undefined or nan, return array [0]
-    // otherwise, return first n number of elements
-    if(!Array.isArray(array) || number < 0) return [];
-    if(number === undefined || typeof number !== 'number') return array[0]; //returns first index 
-    return array.slice(0, number); //return the numbers up to but not including n
-    
+   var holder = [];
+   if (Array.isArray(array) === false) {
+       return holder;
+   }
+   else if (typeof number !== 'number') {
+       return array[0];
+   }
+   else if (number > array.length) {
+       return array;
+   }
+   else {
+       for (var i = 0; i < number; i++){
+           holder.push(array[i]);
+       }
+   }
+   return holder;
 };
     
     
@@ -111,17 +120,26 @@ _.first = function(array, number) {
 *   _.last(["a", "b", "c"], 2) -> ["b", "c"]
 */
 _.last = function(array, number){
-    //test if array is an array, if not, or if n < 0, return []
-    //if number is not given, or nan, return last array element(array[0])
-    //if number is greater than array.length - return whole array
-    //return the last number of items in array
-    if (!Array.isArray(array) || number < 0) return [];
-    if (number === undefined || typeof number !== 'number') return array[array.length - 1];
-    if (number > array.length) return array;
-    return array.slice(-number); //this selects the numbers at indexes from the n parameter
-    /*this expression ensures we START at the index provided by
-    * the number arg (n) then allows all elements after that index to be returned*/
-}
+    let holder = [];
+    if (Array.isArray(array) === false) {
+        return holder;
+    }
+    else if (typeof number !== 'number') {
+        return array[array.length - 1];
+    }
+    else if (number > array.length) {
+        return array;
+    }
+    else if (number < 0) {
+        return holder;    
+    }
+    else {
+        for (let i = number -1; i < array.length; i++) {
+            holder.push(array[i]);
+        }
+    }
+    return holder;
+};
 
 /** _.indexOf
 * Arguments:
@@ -138,11 +156,15 @@ _.last = function(array, number){
 *   _.indexOf(["a","b","c"], "c") -> 2
 *   _.indexOf(["a","b","c"], "d") -> -1
 */
-_.indexOf = function (array, value){
+_.indexOf = function (array, value) {
 for(var i = 0; i < array.length; i++){
-    return array.indexOf(value);
-}    
-}
+    if (array[i] === value ) {
+        return array[i];
+    } else {
+        return -1;
+    }
+    }    
+};
 
 
 
@@ -185,17 +207,17 @@ _.contains = function (array, value){
 *   _.each(["a","b","c"], function(e,i,a){ console.log(e)});
 *      -> should log "a" "b" "c" to the console
 */
-_.each = function(collection, action){
+_.each = function(collection, func){
     if(Array.isArray(collection)) {
-        for(var i = 0; i < collection.length; i++) {
-            action(collection[i], i, collection)
+        for(let i = 0; i < collection.length; i++) {
+            func(collection[i], i, collection)
         }
     } else {
         for(var key in collection) {
-            action(collection[key], key, collection)
+            func(collection[key], key, collection)
         }
     }
-}
+};
 
 /** _.unique
 * Arguments:
@@ -206,10 +228,14 @@ _.each = function(collection, action){
 * Examples:
 *   _.unique([1,2,2,4,5,6,5,2]) -> [1,2,4,5,6]
 */
-_.unique = function(array){
-    const uniques = new Set(array);
-    const backToArray = [...uniques];
-    return backToArray;
+_.unique = function(array) {
+  var removed = [];
+  for(var i = 0; i < array.length; i++){
+      if(_.indexOf(array, array[i]) === i) {
+          removed.push(array[i]);
+      }
+  }
+  return removed;
 }
 
 /** _.filter
@@ -227,18 +253,14 @@ _.unique = function(array){
 * Extra Credit:
 *   use _.each in your implementation
 */
-_.filter = function (array, fn){
-       let tempArray = [];
-   if(Array.isArray(array)) {
-  for(var i = 0; i < array.length; i ++) {
-     if(fn(array[i],i,array)) {
-        tempArray.push(array[i]);
-       }
-    }     
-       
-  }
-       return tempArray;
-
+_.filter = function (array, test){
+  let filtered = [];
+  _.each(array, function(element, index, array) {
+      if(test(element, index, array)) {
+          filtered.push(element);
+      }
+  });
+  return filtered;
 };
     
  
@@ -255,12 +277,14 @@ _.filter = function (array, fn){
 *   _.reject([1,2,3,4,5], function(e){return e%2 === 0}) -> [1,3,5]
 */
 
-_.reject = function (array, _.filter){
-    let results = [];
- if(Array.isArray(array)) 
- 
- 
- return results;
+_.reject = function(array, test) {    
+    var falseArr = [];
+    _.filter(array, function(element, index, arr) {
+        if(!(test(element, index, arr))) {
+            falseArr.push(element);
+        }
+    });
+    return falseArr;
 };
 
 /** _.partition
@@ -281,9 +305,19 @@ _.reject = function (array, _.filter){
 *   }); -> [[2,4],[1,3,5]]
 }
 */
-_.partition = function (arr, fn){
-    
-}
+_.partition = function (array, func){
+    var pass = [];      // array for passing
+    var fail = [];      // array for failing
+        _.each(array, function(value, key, array) {
+    // pass function with all usual arguments
+    // use a ternary with push to give true values to pass array
+    // and false values to the fail array
+    (func(value, key, array) ? pass : fail).push(value); // ternary operator
+    // ternary syntax = (condition) ? true : false
+    });
+        return [pass, fail];    // both arrays are returned inside 1 array
+        };
+
 
 /** _.map
 * Arguments:
@@ -300,7 +334,13 @@ _.partition = function (arr, fn){
 * Examples:
 *   _.map([1,2,3,4], function(e){return e * 2}) -> [2,4,6,8]
 */
-
+_.map = function (collection, func) {
+    var mapResults = [];
+        _.each(collection, function(value, index, collection) { // iterate through collection, no matter the type
+            mapResults.push(func(value, index, collection));    // push altered values to new array
+        });
+        return mapResults;
+};
 
 /** _.pluck
 * Arguments:
@@ -312,7 +352,13 @@ _.partition = function (arr, fn){
 * Examples:
 *   _.pluck([{a: "one"}, {a: "two"}], "a") -> ["one", "two"]
 */
-
+_.pluck = function(array, property) {
+    let propVal = [];
+    _.map(array, function(value, index, array) {
+        propVal.push(array[index][property]);
+    });
+    return propVal;
+};
 
 /** _.every
 * Arguments:
@@ -335,6 +381,9 @@ _.partition = function (arr, fn){
 *   _.every([1,2,3], function(e){return e % 2 === 0}) -> false
 */
 
+_.every = function(collection, fn){
+
+}
 
 /** _.some
 * Arguments:

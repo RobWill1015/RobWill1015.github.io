@@ -125,7 +125,7 @@ var carItems = {
  * undefined and null are equal in value but different in type
  */
 
-carItems - null;
+carItems = null;
 console.log(carItems);  // prints null
 
 // 9. NaN

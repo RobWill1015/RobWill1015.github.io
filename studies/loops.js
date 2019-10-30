@@ -47,6 +47,14 @@ for (var i = 20; i > 10; i--){
 }
 console.log(numbersBackward); // prints: [20, 19, 18, 17, 16, 15, 14, 13, 12, 11]
 
+// you can easily access elements in an array with a for loop
+var nintendo = ['NES', 'SNES', 'N64', 'NGC', 'Wii', 'WiiU']
+var nintendoString = "";
+for (var i = 0; i < nintendo.length; i++){
+  nintendoString += nintendo[i] + " ";
+}
+console.log(nintendoString);    // prints: NES SNES N64 NGC Wii WiiU 
+
 
 // 2. while loop //
 /** 

@@ -68,6 +68,27 @@ var multiply2Nums = function (a, b) {return a * b};
 var mathResults = multiply2Nums(140, 3);
 console.log(mathResults);           // prints 420
 
+// 5. Functions can optionally take inputs and optionally return a value.
+function multiply(a, b){
+    return a * b;
+}
+function wow(){
+
+}
+
+/**
+ * In JavaScript, function parameters default to undefined. However, it's often useful to set a different default value. 
+ * This is where default parameters can help.If no value is provided for b when multiply is called, b's
+ * value would be undefined when evaluating a * b and multiply would return NaN.
+ * The same is true with a return value, you do not need to return a value. When you call that function
+ * you will get undefined
+ */
+  
+  console.log(multiply(5, 2));      // prints: 10
+  console.log(multiply(5));         // prints: NaN
+  console.log(wow());               // prints: undefined
+
+
 // 6. Scope
 var globalVar = 'I am everywhere';
 function attach(string){
