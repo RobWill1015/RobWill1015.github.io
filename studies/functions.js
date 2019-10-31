@@ -73,7 +73,7 @@ function multiply(a, b){
     return a * b;
 }
 function wow(){
-
+console.log('where\'d I go?')
 }
 
 /**
@@ -86,7 +86,9 @@ function wow(){
   
   console.log(multiply(5, 2));      // prints: 10
   console.log(multiply(5));         // prints: NaN
-  console.log(wow());               // prints: undefined
+  console.log(wow);                 // prints: [Function: wow] 
+  console.log(wow());               // prints: where'd I go?
+                                    //         undefined
 
 
 // 6. Scope

@@ -159,11 +159,10 @@ _.last = function(array, number){
 _.indexOf = function (array, value) {
 for(var i = 0; i < array.length; i++){
     if (array[i] === value ) {
-        return array[i];
-    } else {
-        return -1;
+        return i;
+    } 
     }
-    }    
+    return -1; 
 };
 
 
@@ -381,9 +380,27 @@ _.pluck = function(array, property) {
 *   _.every([1,2,3], function(e){return e % 2 === 0}) -> false
 */
 
-_.every = function(collection, fn){
-
-}
+_.every = function(collection, action) {
+    var newArray = [];
+    var count = 0;
+    if (action === undefined) {
+        for (var i = 0; i < collection.length; i++) {
+            if (collection[i]) {
+                count += 1
+            }
+        }
+        return (count === collection.length) ? true : false
+    }
+    for (var x in collection) {
+        newArray.push(action(collection[x], x, collection));
+    }
+    for (var j = 0; j < newArray.length; j++) {
+        if (newArray[j]) {
+            count += 1;
+        }
+    }
+    return (count === newArray.length) ? true : false;
+};
 
 /** _.some
 * Arguments:
@@ -405,7 +422,34 @@ _.every = function(collection, fn){
 *   _.some([1,3,5], function(e){return e % 2 === 0}) -> false
 *   _.some([1,2,3], function(e){return e % 2 === 0}) -> true
 */
-
+_.some = function(collection, action) {
+    if(action === undefined) {
+        for(var i = 0; i < collection.length; i++) {
+            return (collection[i]) ? true : false;
+        }
+    }  
+    if (typeof(action) === undefined && typeof(action) === "boolean") {
+        if (action) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    else {
+        var newArray = [];
+        var count = 0;
+        for (var x in collection) {
+            newArray.push(action(collection[x], x, collection));
+        }
+        for (var j = 0; j < newArray.length; j++) {
+            if (newArray[j]) {
+                count += 1;
+            }
+        }
+        return (count > 0) ? true : false;
+    }
+};
 
 /** _.reduce
 * Arguments:
@@ -425,7 +469,20 @@ _.every = function(collection, fn){
 * Examples:
 *   _.reduce([1,2,3], function(previousSum, currentValue, currentIndex){ return previousSum + currentValue }, 0) -> 6
 */
-
+_.reduce = function(array, action, seed) {
+    var result;
+    if(seed === undefined) {
+        seed = array[0] / 10;
+    }
+    for(var i = 0; i < array.length; i++) {
+        if(i === 0) {
+            result = action(seed, array[i], i);
+        } else {
+            result = action(result, array[i], i);
+        }
+    }
+    return result;
+}
 
 /** _.extend
 * Arguments:
@@ -441,6 +498,19 @@ _.every = function(collection, fn){
 *   _.extend(data, {b:"two"}); -> data now equals {a:"one",b:"two"}
 *   _.extend(data, {a:"two"}); -> data now equals {a:"two"}
 */
+
+_.extend = function(object1, ...objects) {
+        _.each(objects, function(object, key, objects) {
+            for (var key in object) {
+                object1[key] = object[key];
+            }
+        });
+        return object1;
+    }
+
+
+
+
 
 //////////////////////////////////////////////////////////////////////
 // DON'T REMOVE THIS CODE ////////////////////////////////////////////

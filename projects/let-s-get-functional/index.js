@@ -3,7 +3,7 @@
 'use strict';
 
 var customers = require('./data/customers.json');
-var _ = require(/* Replace this with the name of your lodown! */);
+const _ = require('lodown-robwillopspark');
 
 /**
  * 1. Import your lodown module using the require() method,
@@ -22,10 +22,16 @@ var _ = require(/* Replace this with the name of your lodown! */);
  */
 
 var maleCount = function(array) {
-
+    return _.filter(array, function(customers) {
+        return customers.gender === 'male';
+    }).length;
 };
 
-var femaleCount;
+var femaleCount = function(array){
+    return _.reduce(array, function(customers) {
+        return customers.gender === 'female';
+    }).length;
+};
 
 var oldestCustomer;
 

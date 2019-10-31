@@ -52,8 +52,12 @@ var time = 21;
 /*
  * Sometimes you might have multiple conditions and outputs and need more than 2 options. 
  * The if else if statement can evluate more than 2 possible outcomes.
- * You would end with an else statement in case all of the conditions evaluate to false
- * You can have as many if else if as you want but if you have a lot, a switch statement might be eaiser to read
+ * You would end with an else statement in case all of the conditions evaluate to false.
+ * You can have as many if else if as you want but if you have a lot, a switch statement might be eaiser to read.
+ * When using an if or else statement, if the expression is true, the program executes the
+ * next curly bracketed code block or single statement. Only one code block or single statement 
+ * will be executed for any if else chain. An else statement is matched to the closest previous
+ * if statement that does not already have its own else statement.
  */
 
 if (time < 11) {                        // false
