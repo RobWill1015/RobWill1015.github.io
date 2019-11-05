@@ -28,26 +28,121 @@ var maleCount = function(array) {
 };
 
 var femaleCount = function(array){
-    return _.reduce(array, function(customers) {
-        return customers.gender === 'female';
-    }).length;
+    return _.reduce(array, function(previousResult, customers, index, array) {
+     if(customers.gender === 'female'){
+       previousResult++;     
+     } return previousResult;
+    }, 0);  
 };
 
-var oldestCustomer;
+var oldestCustomer = function(array){
+   var ages = array.sort(function (a, b){
+        return b.age - a.age;
+    }); return ages[0].name; 
+};  
 
-var youngestCustomer;
+var youngestCustomer = function (array){
+    var ages = array.sort(function(a, b){
+        return a.age - b.age;
+    }); return ages[0].name;
+};
 
-var averageBalance;
+var averageBalance = function(array){
+   var averageB =  _.reduce(array, function(previousValue, customer, i, array){
+           var remove = customer.balance.slice(1);  //sliced off dollar signs
+           //console.log(remove);
+           //eliminate special characaters in customers balances
+           remove = remove.split(",").join("");// split and join to remove commas
+           remove = Number.parseFloat(remove);
+           previousValue += remove;
+           //console.log(remove);
+           return previousValue;
+    }, 0);
+    return averageB  / array.length; // to get the average 
+};
 
-var firstLetterCount;
+var firstLetterCount = function (array, letter) {
+    return _.reduce(array, function(count, array) {
+        if(array.name.charAt(0).toLowerCase() === letter.toLowerCase()) {
+            count += 1;
+            return count;
+        }
+        return count;
+    }, 0);
+};
 
-var friendFirstLetterCount;
 
-var friendsCount;
+var friendFirstLetterCount = function (array, name, letter) {
+    return _.reduce(array, function(count, array) {
+        if(array.name === name) {
+            for (var i = 0; i < array.friends.length; i ++){
+                if(array.friends[i].name.charAt(0).toLowerCase() === letter.toLowerCase()) count += 1;
+            }
+            return count;
+            }
+            return count;
+            }, 0);
+};        
 
-var topThreeTags;
 
-var genderCount;
+var friendsCount = function (array, name){;
+// **Objective**: Find the customers' names that have a given customer's name in their friends list
+//  - **Input**: `Array`, `Name`
+//  - **Output**: `Array`
+    let friendsArr = [];
+    let customersArr = [];
+    let finalArr = [];
+    
+    for(var k = 0; k < array.length; k++) {
+        for(var j = 0; j < array[k].friends.length; j++) {
+            customersArr.push(array[k].name);
+            friendsArr.push(array[k].friends[j].name);
+        }
+    }
+    
+    for(var j = 0; j < customersArr.length; j++) {
+        if(_.contains(friendsArr, customersArr[j])) { 
+            finalArr.push(customersArr[j]) }
+    }
+
+    return _.unique(finalArr);
+};
+
+
+
+var topThreeTags = function (array){
+//   **Objective**: Find the three most common tags among all customers' associated tags
+//   **Input**: `Array`
+//   **Output**: `Array`
+let tags = _.reduce(array, function(list, array) {
+    for(var i = 0; i < array.tags.length; i++) {
+        if(array.tags[i] in list) { ++list[array.tags[i]] }
+        else {list[array.tags[i]] = 1 }
+}   return list;
+}, {})
+let arr = [];
+let int = 0;
+    for(var key in tags) {
+        if(tags[key] >= int) {
+            arr.unshift(key);
+            int = tags[key]
+        }
+    }
+        return _.first(arr, 3)
+};
+
+
+
+
+var genderCount = function (array) {
+   return _.reduce(array, function(object, array) {
+       if(array.gender in object) {
+           ++object[array.gender] 
+       } else {object[array.gender] = 1; 
+       }
+   }, {})
+}
+
 
 //////////////////////////////////////////////////////////////////////
 // DON'T REMOVE THIS CODE ////////////////////////////////////////////
