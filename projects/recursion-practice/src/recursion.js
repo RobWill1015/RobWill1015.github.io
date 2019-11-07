@@ -50,11 +50,22 @@ var isEven = function(n) {
 // sumBelow(10); // 45
 // sumBelow(7); // 21
 var sumBelow = function(n) {
+  // base case
+  if (n === 0) { 
+    return 0; }
+  // recursive case
+  n = n > 0 ? n - 1 : n + 1;
+  return n + sumBelow(n);
 };
 
 // 6. Get the integers in range (x, y).
 // Example:  range(2, 9);  // [3, 4, 5, 6, 7, 8]
 var range = function(x, y) {
+ if (y - x === 1 || y - x === 0){
+   return [];
+ }
+ y = y > x ? y - 1 : y + 1
+ return y === x ? [] : range(x, y).concat(y);
 };
 
 // 7. Compute the exponent of a number.
@@ -63,6 +74,13 @@ var range = function(x, y) {
 // Example:  exponent(4,3);  // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
 var exponent = function(base, exp) {
+  if(exp === 0){
+    return 1;
+  }
+ else if(exp < 0){
+    return 1 / (exponent(base, -1 * exp));
+  }
+  return base * exponent(base, exp - 1);
 };
 
 // 8. Determine if a number is a power of two.
@@ -70,14 +88,26 @@ var exponent = function(base, exp) {
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
 var powerOfTwo = function(n) {
+  if(n === 1){
+    return true; 
+  } if (n === 0 || n % 2 === 1) {
+    return false;
+  } return powerOfTwo(n / 2);
 };
 
 // 9. Write a function that accepts a string a reverses it.
 var reverse = function(string) {
+  return string === '' ? '' : reverse(string.substr(1)) + string.charAt(0);
 };
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
+if(string.length === 0 || string.length === 1){
+  return true;
+} else if (string[0] === string[string.length - 1]) {
+  return palindrome(string.slice(1, string.length - 1))
+}
+  return false;
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
@@ -91,11 +121,18 @@ var modulo = function(x, y) {
 // 12. Write a function that multiplies two numbers without using the * operator  or
 // JavaScript's Math object.
 var multiply = function(x, y) {
+   if(y === 0) {
+    return 0;
+  } else {
+    return x + multiply(x, y - 1);
+  }
 };
+
 
 // 13. Write a function that divides two numbers without using the / operator  or
 // JavaScript's Math object.
 var divide = function(x, y) {
+  
 };
 
 // 14. Find the greatest common divisor (gcd) of two positive numbers.  The GCD of two
@@ -112,32 +149,66 @@ var gcd = function(x, y) {
 // compareStr('', '') // true
 // compareStr('tomato', 'tomato') // true
 var compareStr = function(str1, str2) {
+  if(str1.length === 0 && str2.length === 0){
+    return true;
+  } else if(str1[0] === str2[0]){
+    return compareStr(str1.slice(1), str2.slice(1))
+  }
+  return false;
 };
 
 // 16. Write a function that accepts a string and creates an array where each letter
 // occupies an index of the array.
 var createArray = function(str){
+  var arr = [];
+  if(str.length === 0){
+    return arr;
+  }
+  arr.push(str[0]);
+  arr = arr.concat(createArray(str.slice(1)));
+  return arr;
 };
 
 // 17. Reverse the order of an array
 var reverseArr = function (array) {
+  var reversed = [];
+  if(array.length === 0){
+    return reversed; 
+  } reversed.push(array.pop());
+  reversed = reversed.concat(reverseArr(array.slice(0)));
+  return reversed;
 };
 
 // 18. Create a new array with a given value and length.
 // buildList(0,5) // [0,0,0,0,0]
 // buildList(7,3) // [7,7,7]
 var buildList = function(value, length) {
+  let array = [];
+  if(length === 0){
+  return array;
+}
+array.push(value);
+return array.concat(buildList(value, length -1));
 };
 
 // 19. Count the occurence of a value inside a list.
 // countOccurrence([2,7,4,4,1,4], 4) // 3
 // countOccurrence([2,'banana',4,4,1,'banana'], 'banana') // 2
 var countOccurrence = function(array, value) {
+  if(array.length === 0){
+    return 0;
+  }
+  return (array[0] === value) + 
+  countOccurrence(array.slice(1), value);
 };
 
 // 20. Write a recursive version of map.
 // rMap([1,2,3], timesTwo); // [2,4,6]
 var rMap = function(array, callback) {
+  if(array.length === 1){
+    return callback(array);
+  }
+  return [callback(array[0])].concat(rMap(array.slice(1), callback));
 };
 
 // 21. Write a function that counts the number of times a key occurs in an object.

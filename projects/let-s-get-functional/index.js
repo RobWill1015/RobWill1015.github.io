@@ -89,25 +89,16 @@ var friendsCount = function (array, name){;
 // **Objective**: Find the customers' names that have a given customer's name in their friends list
 //  - **Input**: `Array`, `Name`
 //  - **Output**: `Array`
-    let friendsArr = [];
-    let customersArr = [];
-    let finalArr = [];
-    
-    for(var k = 0; k < array.length; k++) {
-        for(var j = 0; j < array[k].friends.length; j++) {
-            customersArr.push(array[k].name);
-            friendsArr.push(array[k].friends[j].name);
+    var friendCollection = [];
+    for(var i = 0; i < array.length; i++){
+        for(var j = 0; j < array[i].friends.length; j++){
+            if(array[i].friends[j].name === name) {
+                friendCollection.push(array[i].name);
+            }
         }
     }
-    
-    for(var j = 0; j < customersArr.length; j++) {
-        if(_.contains(friendsArr, customersArr[j])) { 
-            finalArr.push(customersArr[j]) }
-    }
-
-    return _.unique(finalArr);
+    return friendCollection;
 };
-
 
 
 var topThreeTags = function (array){
@@ -132,16 +123,17 @@ let int = 0;
 };
 
 
-
-
-var genderCount = function (array) {
-   return _.reduce(array, function(object, array) {
-       if(array.gender in object) {
-           ++object[array.gender] 
-       } else {object[array.gender] = 1; 
-       }
-   }, {})
-}
+var genderCount = function(array){
+    let gender = {
+        'male': 0,
+        'female': 0,
+        'non-binary': 0
+    };
+    return _.reduce(array, function(list, customer){
+        list[customer.gender]++;
+        return list;
+        }, gender);
+};
 
 
 //////////////////////////////////////////////////////////////////////
