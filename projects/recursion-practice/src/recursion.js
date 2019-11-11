@@ -101,14 +101,25 @@ var reverse = function(string) {
 };
 
 // 10. Write a function that determines if a string is a palindrome.
-var palindrome = function(string) {
-if(string.length === 0 || string.length === 1){
-  return true;
-} else if (string[0] === string[string.length - 1]) {
-  return palindrome(string.slice(1, string.length - 1))
-}
+var palindrome = function(string){
+  var newStr;
+  if(string.length === 1 || string.length === 0) {
+    return true;
+  } if(string.includes(' ')) {
+    newStr = string.split(' ').join('').toLowerCase();
+  } else {
+    newStr = string.toLowerCase();
+  }
+  var first = newStr[0];
+  var last = newStr[newStr.length - 1];
+  var rest = newStr.slice(1, -1);
+  if(first === last){
+    return palindrome(rest);
+  }
   return false;
 };
+
+
 
 // 11. Write a function that returns the remainder of x divided by y without using the
 // modulo (%) operator.
@@ -121,8 +132,10 @@ var modulo = function(x, y) {
 // 12. Write a function that multiplies two numbers without using the * operator  or
 // JavaScript's Math object.
 var multiply = function(x, y) {
-   if(y === 0) {
+   if(x === 0 || y === 0) {
     return 0;
+  } else if (y < 0) {
+    return -x + multiply(x, y + 1);
   } else {
     return x + multiply(x, y - 1);
   }
@@ -244,17 +257,36 @@ var fibonacci = function(n) {
 // nthFibo(7); // 13
 // nthFibo(3); // 2
 var nthFibo = function(n) {
+  if(n < 0) {
+    return null;
+  } else if (n === 1){
+    return 1;
+  }
+  return nthFibo(n - 1) + nthFibo(n - 2);
 };
 
 // 26. Given an array of words, return a new array containing each word capitalized.
 // var words = ['i', 'am', 'learning', 'recursion'];
 // capitalizedWords(words); // ['I', 'AM', 'LEARNING', 'RECURSION']
 var capitalizeWords = function(input) {
+  let result = [];
+  if(input.length === 0){
+    return result;
+  }
+  result.push(input[0].toUpperCase());
+  result = result.concat(capitalizeWords(input.slice(1)));
+  return result;
 };
 
 // 27. Given an array of strings, capitalize the first letter of each index.
 // capitalizeFirst(['car', 'poop', 'banana']); // ['Car', 'Poop', 'Banana']
 var capitalizeFirst = function(array) {
+  let result = [];
+  if(!array.length) {
+    return result;
+  } result.push(array[0].charAt(0).toUpperCase() + array[0].slice(1));
+  result = result.concat(capitalizeFirst(array.slice(1)));
+  return result;
 };
 
 // 28. Return the sum of all even numbers in an object containing nested objects.
@@ -277,6 +309,17 @@ var flatten = function(arrays) {
 // 30. Given a string, return an object containing tallies of each letter.
 // letterTally('potato'); // {'p':1, 'o':2, 't':2, 'a':1}
 var letterTally = function(str, obj) {
+  let result = Array.from(arguments)[1] || {};
+  if(str.length === 0) {
+    return result;
+  }
+  if(!result[str[0]]) {
+    result[str[0]] = 1;
+  } else {
+    console.log(result[str[0]], 'hey');
+    result[str[0]]++;
+  }
+  return letterTally(str.slice(1), result);
 };
 
 // 31. Eliminate consecutive duplicates in a list.  If the list contains repeated
@@ -285,6 +328,14 @@ var letterTally = function(str, obj) {
 // Example: compress([1, 2, 2, 3, 4, 4, 5, 5, 5]) // [1, 2, 3, 4, 5]
 // Example: compress([1, 2, 2, 3, 4, 4, 2, 5, 5, 5, 4, 4]) // [1, 2, 3, 4, 2, 5, 4]
 var compress = function(list) {
+  var result = list.slice();
+  for(var i = 0; i < result.length; i++) {
+    if(result[i] === result[i - 1]) {
+      result.splice(i, 1);
+      return compress(result);
+    }
+  }
+  return result;
 };
 
 // 32. Augment every element in a list with a new value where each element is an array
@@ -297,6 +348,13 @@ var augmentElements = function(array, aug) {
 // minimizeZeroes([2,0,0,0,1,4]) // [2,0,1,4]
 // minimizeZeroes([2,0,0,0,1,0,0,4]) // [2,0,1,0,4]
 var minimizeZeroes = function(array) {
+  if(array.length === 0) {
+    return array;
+  } if(minimizeZeroes(array.slice(1))[0] === 0 && array[0] === 0){
+    return minimizeZeroes(array.slice(1));
+  } else {
+    return [array[0]].concat(minimizeZeroes(array.slice(1)));
+  }
 };
 
 // 34. Alternate the numbers in an array between positive and negative regardless of
@@ -304,13 +362,68 @@ var minimizeZeroes = function(array) {
 // alternateSign([2,7,8,3,1,4]) // [2,-7,8,-3,1,-4]
 // alternateSign([-2,-7,8,3,-1,4]) // [2,-7,8,-3,1,-4]
 var alternateSign = function(array) {
+  if(array.length === 0) {
+    return array;
+  } if(array[0] < 0) {
+    array[0] = -array[0];
+  } if(array[1] > 0) {
+    array[1] = -array[1];
+  } return [array[0], array[1]].concat(alternateSign(array.slice(2)));
 };
 
 // 35. Given a string, return a string with digits converted to their word equivalent.
 // Assume all numbers are single digits (less than 10).
 // numToText("I have 5 dogs and 6 ponies"); // "I have five dogs and six ponies"
+// var numToText = function(str) {
+//   let converted = "";
+//   if(str.length === 0){
+//     return converted;
+//   }
+//   let words = str.split(' ');
+//   let numChars = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+//   let numWords = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+//   let first = words[0];
+//   if(numChars.includes(first)) {
+//     let index = numChars.indexOf(first);
+//     converted += numWords[index];
+//   } else {
+//     converted += first;
+//   }
+//   let remainder = words.slice(1);
+//   converted += " " + numToText(remainder.join(' '));
+//   return converted;
+// };
+// console.log(numToText('I have 5 dogs and 6 ponies'));
+
 var numToText = function(str) {
+  if (str.length === 0) return '';
+  var tempStr = numToText(str.substring(0, str.length-1));
+  var replace;
+  switch (str[str.length-1]) {
+    case '1': replace = 'one';
+      break;
+    case '2': replace = 'two';
+      break;
+    case '3': replace = 'three';
+      break;
+    case '4': replace = 'four';
+      break;
+    case '5': replace = 'five';
+      break;
+    case '6': replace = 'six';
+      break;
+    case '7': replace = 'seven';
+      break;
+    case '8': replace = 'eight';
+      break;
+    case '9': replace = 'nine';
+      break;
+    default: replace = str[str.length-1];
+      break;
+  }
+  return tempStr + replace;
 };
+
 
 // *** EXTRA CREDIT ***
 
